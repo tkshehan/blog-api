@@ -10,7 +10,7 @@ const {BlogPosts} = require('./models');
 BlogPosts.create('A quick test', 'This is, infact, a test.', 'Thomas');
 
 router.get('/', (req, res) => {
-
+  res.json(BlogPosts.get());
 });
 
 router.post('/', jsonParser, (req, res) => {
