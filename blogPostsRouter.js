@@ -29,7 +29,9 @@ router.post('/', jsonParser, (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-
+  BlogPosts.delete(req.params.id);
+  console.log(`Deleted shopping list item "${req.params.id}"`);
+  res.status(204).end();
 });
 
 router.put('/:id', jsonParser, (req, res) => {
