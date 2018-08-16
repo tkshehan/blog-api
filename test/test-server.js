@@ -15,6 +15,10 @@ describe('Blog Posts', function() {
     return closeServer();
   });
 
-
+  it('should list items on GET', function() {
+    return chai
+      .request(app)
+      .get('/');
+  });
 
 });
