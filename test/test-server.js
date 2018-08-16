@@ -93,6 +93,25 @@ describe('Blog Posts', function() {
       })
   });
 
-  it('should delete a Post on DELETE');
+  it('should delete a Post on DELETE', function() {
+    return chai
+      .request(app)
+      .delete(`/blog-posts/${storedId}`)
+      .then(function(res) {
+        expect(res).to.have.a.status(204);
+        expect(res.body).to.be.empty;
+      })
+      .then(function() {
+        return chai.request(app)
+          .get('/blog-posts');
+      })
+      .then(function(res) {
+        expectedLength--;
+        expect(res.body.length).to.equal(expectedLength);
+        res.body.forEach(function(post) {
+          expect(post.id).to.not.equal(storedId);
+        });
+      });
+  });
 
 });
