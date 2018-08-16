@@ -15,10 +15,12 @@ describe('Blog Posts', function() {
     return closeServer();
   });
 
-  it('should list items on GET', function() {
-    return chai
-      .request(app)
-      .get('/');
-  });
+  it('should list items on GET');
+
+  it('should add an item on POST');
+
+  it('should update an item on PUT');
+
+  it('should delete and item on DELETE');
 
 });
