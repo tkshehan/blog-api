@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
+const {PORT, DATABASE_URL} = require('./config');
 const {BlogPosts} = require('./models');
 
 // Dummy entrys
