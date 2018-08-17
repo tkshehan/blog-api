@@ -11,8 +11,8 @@ const {PORT, DATABASE_URL} = require('./config');
 const {BlogPosts} = require('./models');
 
 // Dummy entrys
-BlogPosts.create('A Quick Test', 'This is, infact, a test. To be continued..', 'Thomas');
-BlogPosts.create('A Second Test', 'This test is also a test. Send Help', 'Thomas');
+BlogPosts.post('A Quick Test', 'This is, infact, a test. To be continued..', 'Thomas');
+BlogPosts.post('A Second Test', 'This test is also a test. Send Help', 'Thomas');
 
 router.get('/', (req, res) => {
   res.json(BlogPosts.get());
