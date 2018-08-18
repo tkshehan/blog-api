@@ -16,7 +16,7 @@ const blogPostSchema = mongoose.Schema({
   title: 'string',
   content: 'string',
   author: {type: mongoose.Schema.Types.ObjectId, ref: 'Author'},
-  comments: [commentSchema]
+  comments: [commentSchema],
 });
 
 blogPostSchema.virtual('authorName').get(function() {
@@ -33,6 +33,11 @@ blogPostSchema.methods.serialize = function() {
 };
 
 blogPostSchema.pre('findOne', function(next) {
+  this.populate('author');
+  next();
+});
+
+blogPostSchema.pre('find', function(next) {
   this.populate('author');
   next();
 });
