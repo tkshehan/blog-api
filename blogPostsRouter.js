@@ -9,10 +9,6 @@ const jsonParser = bodyParser.json();
 
 const {BlogPost} = require('./models');
 
-// Dummy entrys
-//BlogPosts.post('A Quick Test', 'This is, infact, a test. To be continued..', 'Thomas');
-//BlogPosts.post('A Second Test', 'This test is also a test. Send Help', 'Thomas');
-
 router.get('/', (req, res) => {
   BlogPost.find()
     .limit(10)

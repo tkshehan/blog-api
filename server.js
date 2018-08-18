@@ -10,10 +10,11 @@ const {PORT, DATABASE_URL} = require('./config');
 const blogPostsRouter = require('./blogPostsRouter');
 
 app.use(morgan('common'));
+app.use(express.json());
 
-app.use('/blog-posts', blogPostsRouter);
+app.use('/posts', blogPostsRouter);
 
-app.use('*', function() {
+app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
 });
 
