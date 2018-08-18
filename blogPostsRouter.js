@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   BlogPost
     .findById(req.params.id)
-    .then(blogPost => res.json(blogPost.serialize()))
+    .then(blogPost => res.json(blogPost.serializeOne()))
     .catch(err => {
       console.error(err);
       res.status(500).json({message: 'Internal server error'});
