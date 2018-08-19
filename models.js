@@ -66,6 +66,6 @@ blogPostSchema.pre('find', function(next) {
 });
 
 const Author = mongoose.model('Author', authorSchema);
-const BlogPost = mongoose.model('BlogPost', blogPostSchema);
+const BlogPost = mongoose.model('Post', blogPostSchema);
 
 module.exports = {BlogPost, Author};
