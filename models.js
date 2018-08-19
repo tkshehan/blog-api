@@ -2,21 +2,22 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const authorSchema = mongoose.Schema({
-  firstName: 'string',
-  lastName: 'string',
+  firstName: String,
+  lastName: String,
   userName: {
-    type: 'string',
+    type: String,
     unique: true,
   },
 });
 
-const commentSchema = mongoose.Schema({content: 'string'});
+const commentSchema = mongoose.Schema({content: String});
 
 const blogPostSchema = mongoose.Schema({
-  title: 'string',
-  content: 'string',
+  title: String,
+  content: String,
   author: {type: mongoose.Schema.Types.ObjectId, ref: 'Author'},
   comments: [commentSchema],
+  created: Date,
 });
 
 blogPostSchema.virtual('authorName').get(function() {
