@@ -10,6 +10,18 @@ const authorSchema = mongoose.Schema({
   },
 });
 
+authorSchema.virtual('name').get(function() {
+  return `${this.firstName} ${this.lastName}`.trim();
+});
+
+authorSchema.methods.serialize = function() {
+  return {
+    _id: this._id,
+    name: this.name,
+    userName: this.userName,
+  };
+};
+
 const commentSchema = mongoose.Schema({content: String});
 
 const blogPostSchema = mongoose.Schema({

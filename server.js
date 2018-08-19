@@ -8,7 +8,7 @@ const app = express();
 
 const {PORT, DATABASE_URL} = require('./config');
 const postsRouter = require('./postsRouter');
-const authorsRouter = require('.authorsRouter');
+const authorsRouter = require('./authorsRouter');
 
 app.use(morgan('common'));
 app.use(express.json());
