@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const {BlogPost} = require('./models');
+const {BlogPost, Author} = require('./models');
 
 router.get('/', (req, res) => {
   BlogPost.find()
@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', jsonParser, (req, res) => {
-  const requiredFields = ['title', 'content', 'author'];
+  const requiredFields = ['title', 'content', 'author_id'];
   for (field of requiredFields) {
     if (!(field in req.body)) {
       const message = `Missing "${field}" in request body`;
@@ -43,16 +43,34 @@ router.post('/', jsonParser, (req, res) => {
     }
   }
 
-  BlogPost.create({
-    title: req.body.title,
-    content: req.body.content,
-    author: req.body.author,
-    publishDate: req.body.publishDate || Date.now(),
-  })
-    .then(blogPost => res.status(201).json(blogPost.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server error'});
+  Author.findById({_id: req.body.author_id})
+    .then(author => {
+      if (!(author)) {
+        const message = `Invalid author_id`;
+        console.error(message);
+        return res.status(400).send(message);
+      }
+    })
+    .then(function() {
+      BlogPost.create({
+        title: req.body.title,
+        content: req.body.content,
+        author: req.body.author_id,
+        publishDate: req.body.publishDate || Date.now(),
+      })
+        .then(blogPost => {
+          BlogPost
+            .findById(blogPost._id)
+            .then(blogPost => res.json(blogPost.serialize()))
+            .catch(err => {
+              console.error(err);
+              res.status(500).json({message: 'Internal server error'});
+            });
+        })
+        .catch(err => {
+          console.error(err);
+          res.status(500).json({message: 'Internal server error'});
+        });
     });
 });
 
