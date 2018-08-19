@@ -86,18 +86,14 @@ router.put('/:id', jsonParser, (req, res) => {
   });
 
   BlogPost
-    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-    .then(blogPost => {
-      BlogPost
-        .findById(blogPost._id)
-        .then(blogPost => res.json(blogPost.serialize()))
-    })
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+    .then(blogPost => res.json(blogPost.serialize()))
     .catch(err => res.status(500).json({message: 'Internal server error'}))
 });
 
 router.delete('/:id', (req, res) => {
   BlogPost.findByIdAndRemove(req.params.id)
-    .then(blogPost => res.status(204).end())
+    .then((arg) => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}))
 });
 

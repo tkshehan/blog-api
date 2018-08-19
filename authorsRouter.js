@@ -42,11 +42,53 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
+  if (req.params.id !== req.body.id) {
+    const message = `Request path id and request body id must match`;
+    console.error(message);
+    return res.status(400).send(message);
+  }
 
+  const toUpdate = {};
+  const updateableFields = ['firstName', 'lastName', 'userName'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
+    }
+  });
+
+  Author
+    .findOne({userName: req.body.userName})
+    .then(author => {
+      if (author) {
+        const message = `Username ${req.body.userName} already taken`;
+        console.error(message);
+        return res.status(400).send(message);
+      } else {
+        Author
+          .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+          .then(author => {
+            return res.json({
+              _id: req.params.id,
+              name: `${author.firstName} ${author.lastName}`,
+              userName: author.userName,
+            });
+          })
+      }
+    })
+    .catch(err => res.status(500).json({message: 'Internal server error'}))
 });
 
 router.delete('/:id', (req, res) => {
-
+  BlogPost
+    .remove({author: req.params.id})
+    .then(function() {
+      Author
+        .findByIdAndRemove(req.params.id)
+    })
+    .then(function() {
+      res.status(204).message(`Deleted User and Blogposts of UserId ${req.params.id}`);
+    })
+    .catch(err => res.status(500).json({message: 'Internal server error'}))
 });
 
 module.exports = router;
