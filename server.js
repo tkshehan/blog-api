@@ -7,12 +7,14 @@ mongoose.Promise = global.Promise;
 const app = express();
 
 const {PORT, DATABASE_URL} = require('./config');
-const blogPostsRouter = require('./blogPostsRouter');
+const postsRouter = require('./postsRouter');
+const authorsRouter = require('./authorsRouter');
 
 app.use(morgan('common'));
 app.use(express.json());
 
-app.use('/posts', blogPostsRouter);
+app.use('/posts', postsRouter);
+app.use('/authors', authorsRouter);
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
