@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const {Author} = require('./models');
+const {Author, BlogPost} = require('./models');
 
 router.post('/', (req, res) => {
   const requiredFields = ['firstName', 'lastName', 'userName'];
